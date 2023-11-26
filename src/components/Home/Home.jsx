@@ -286,7 +286,7 @@ const Home = () => {
         <div
           id="scrollhorigental"
           ref={elRef}
-          className="absolute w-full mx-auto overflow-x-auto overflow-y-hidden h-[520px] top-[100px]"
+          className="absolute w-full mx-auto overflow-x-auto overflow-y-hidden min-h-[520px] top-[100px]"
         >
           {/* eslint-disable */}
           <div

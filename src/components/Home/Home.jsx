@@ -284,6 +284,7 @@ const Home = () => {
           Logo
         </div>
         <div
+          id="scrollhorigental"
           ref={elRef}
           className="absolute w-full mx-auto overflow-x-auto overflow-y-hidden h-[520px] top-[100px]"
         >

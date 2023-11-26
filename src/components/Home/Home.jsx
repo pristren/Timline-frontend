@@ -279,7 +279,7 @@ const Home = () => {
   }, []);
   return (
     <div className="bg-white flex flex-row justify-center w-full">
-      <div className="bg-white w-[1440px] h-[1024px] relative">
+      <div className="bg-white w-[1440px] relative">
         <div className="absolute top-[79px] left-[96px] [font-family:'Inter-Regular',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal]">
           Logo
         </div>

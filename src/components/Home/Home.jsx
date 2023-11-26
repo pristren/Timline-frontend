@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Home = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -84,16 +84,219 @@ const Home = () => {
       month: "Oct",
       like: 45,
     },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Aug",
+      like: 300,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
+    {
+      month: "Sep",
+      like: 190,
+    },
+    {
+      month: "Oct",
+      like: 45,
+    },
   ];
-
+  const dropdownRef = useRef(null);
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setSelectedIndex(null);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  const elRef = useRef();
+  useEffect(() => {
+    const el = elRef.current;
+    if (el) {
+      const onWheel = (e) => {
+        if (e.deltaY == 0) return;
+        e.preventDefault();
+        el.scrollTo({
+          left: el.scrollLeft + e.deltaY,
+          behavior: "smooth",
+        });
+      };
+      el.addEventListener("wheel", onWheel);
+      return () => el.removeEventListener("wheel", onWheel);
+    }
+  }, []);
   return (
     <div className="bg-white flex flex-row justify-center w-full">
       <div className="bg-white w-[1440px] h-[1024px] relative">
         <div className="absolute top-[79px] left-[96px] [font-family:'Inter-Regular',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal]">
           Logo
         </div>
-        <div className="absolute w-[1336px] h-[498px] top-[240px] left-[40px]">
-          <div className="absolute w-[1190px] h-[50px] top-[427px] left-[120px] bg-[#d9d9d9]" />
+        <div
+          ref={elRef}
+          className="absolute w-full mx-auto overflow-x-auto overflow-y-hidden h-[520px] top-[100px]"
+        >
+          {/* eslint-disable */}
+          <div
+            style={{
+              width:
+                likedata?.length > 20
+                  ? `${110 + likedata?.length * 55}px`
+                  : "1190px",
+            }}
+            className="absolute h-[40px] top-[427px] left-[120px] bg-[#d9d9d9]"
+          />
           {likedata?.map((res, i) => {
             const isSameMonth = res.month === prevMonth;
             prevMonth = res.month;
@@ -122,26 +325,24 @@ const Home = () => {
                     borderRadius: "50px",
                     cursor: "pointer",
                   }}
-                  // className="absolute w-[20px] h-[20px] top-[118px] left-[49px] bg-[#fb1717] rounded-[50px]"
                 />
                 {!isSameMonth && (
                   <div
                     style={{
                       position: "absolute",
-                      bottom: `-10px`,
+                      bottom: `10px`,
                       left: `${95 + (i + 1) * 55}px`,
                       color: "black",
                       fontSize: "10px",
                       zIndex: 99999999,
                     }}
-                    // className="absolute top-[14px] left-[65px] font-normal text-black text-[16px]"
                   >
                     {res?.month} 2023
                   </div>
                 )}
 
                 {selectedIndex == i && (
-                  <div>
+                  <div ref={dropdownRef}>
                     <div
                       style={{
                         position: "absolute",
@@ -152,7 +353,6 @@ const Home = () => {
                         background: "#d9d9d9",
                         zIndex: 999999,
                       }}
-                      //   className="absolute w-[164px] h-[95px] top-0 left-0 bg-[#d9d9d9]"
                     />
                     <div
                       style={{
@@ -163,7 +363,6 @@ const Home = () => {
                         fontSize: "16px",
                         zIndex: 99999999,
                       }}
-                      // className="absolute top-[14px] left-[65px] font-normal text-black text-[16px]"
                     >
                       title
                     </div>
@@ -175,7 +374,6 @@ const Home = () => {
                         bottom: `${96 + res?.like}px`,
                         left: `${105 + (i + 1) * 55}px`,
                       }}
-                      // className="absolute w-[26px] h-[34px] top-[94px] left-[67px]"
                       alt="Polygon"
                       src="https://i.ibb.co/vDZBHw1/Polygon-1.png"
                     />
@@ -184,23 +382,6 @@ const Home = () => {
               </>
             );
           })}
-          {/* <div
-              key={i}
-              className={`absolute w-[16px] h-[${
-                15 + res
-              }px] bottom-[70px] left-[${100 + (i + 1 * 20)}px] bg-[#d9d9d9]`}
-            /> */}
-          {/* <div className="absolute w-[16px] h-[155px] top-[280px] left-[182px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[216px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[317px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[368px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[528px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[595px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[664px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[806px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[858px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[934px] bg-[#d9d9d9]" />
-          <div className="absolute w-[16px] h-[155px] top-[280px] left-[1006px] bg-[#d9d9d9]" /> */}
         </div>
       </div>
     </div>

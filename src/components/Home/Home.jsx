@@ -1,18 +1,21 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import Rodal from "rodal";
+import Popup from "reactjs-popup";
 
 const Home = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   let prevMonth = null;
   const [likedata, setLikeData] = useState([]);
-
-  useEffect(() => {
+  const fetchEventData = () => {
     axios.get("http://localhost:5000/api/v1/events").then((res) => {
       setLikeData(res.data);
     });
+  };
+  useEffect(() => {
+    fetchEventData();
   }, []);
 
   const dropdownRef = useRef(null);
@@ -45,9 +48,23 @@ const Home = () => {
       return () => el1.removeEventListener("wheel", onWheel);
     }
   }, []);
-  const [openModal, setOpenModal] = useState(false);
+
+  const handleLike = (id, total) => {
+    axios
+      .put(`http://localhost:5000/api/v1/events/update/${id}`, {
+        likes: total + 1,
+      })
+      .then((res) => {
+        if (res) {
+          toast.success("Successfully Liked!");
+          fetchEventData();
+        }
+      });
+  };
+
   return (
     <div>
+      <Toaster position="top-right" reverseOrder={false} />
       <div className="flex justify-between mx-10 mt-5">
         <div className="[font-family:'Inter-Regular',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal]">
           Logo
@@ -62,7 +79,7 @@ const Home = () => {
       >
         <div className="bg-white w-[1440px] relative">
           <div
-            key={1}
+            key={elRef}
             id="scrollhorigental"
             ref={elRef}
             className="absolute w-full mx-auto overflow-x-auto overflow-y-hidden min-h-[520px] top-[100px]"
@@ -141,42 +158,85 @@ const Home = () => {
                   )}
 
                   {selectedIndex == i && (
-                    <div onClick={() => setOpenModal(true)} ref={dropdownRef}>
-                      <div
-                        style={{
-                          position: "absolute",
-                          width: `164px`,
-                          height: `95px`,
-                          bottom: `${130 + res?.likes}px`,
-                          left: `${40 + (i + 1) * 55}px`,
-                          background: "#d9d9d9",
-                          zIndex: 999999,
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: "absolute",
-                          bottom: `${160 + res?.likes}px`,
-                          left: `${105 + (i + 1) * 55}px`,
-                          color: "black",
-                          fontSize: "16px",
-                          zIndex: 99999999,
-                        }}
-                      >
-                        {res?.event_name}
-                      </div>
-                      <img
-                        style={{
-                          position: "absolute",
-                          width: `26px`,
-                          height: `34px`,
-                          bottom: `${96 + res?.likes}px`,
-                          left: `${105 + (i + 1) * 55}px`,
-                        }}
-                        alt="Polygon"
-                        src="https://i.ibb.co/vDZBHw1/Polygon-1.png"
-                      />
-                    </div>
+                    <Popup
+                      onClose={() => setSelectedIndex(null)}
+                      trigger={
+                        <div>
+                          <div
+                            style={{
+                              position: "absolute",
+                              width: `164px`,
+                              height: `95px`,
+                              bottom: `${130 + res?.likes}px`,
+                              left: `${40 + (i + 1) * 55}px`,
+                              background: "#d9d9d9",
+                              zIndex: 999999,
+                            }}
+                          />
+                          <div
+                            style={{
+                              position: "absolute",
+                              bottom: `${160 + res?.likes}px`,
+                              left: `${105 + (i + 1) * 55}px`,
+                              color: "black",
+                              fontSize: "16px",
+                              zIndex: 99999999,
+                            }}
+                          >
+                            {res?.event_name}
+                          </div>
+                          <img
+                            style={{
+                              position: "absolute",
+                              width: `26px`,
+                              height: `34px`,
+                              bottom: `${96 + res?.likes}px`,
+                              left: `${105 + (i + 1) * 55}px`,
+                            }}
+                            alt="Polygon"
+                            src="https://i.ibb.co/vDZBHw1/Polygon-1.png"
+                          />
+                        </div>
+                      }
+                      modal
+                    >
+                      {(close) => (
+                        <div className="modal">
+                          <button
+                            className="close"
+                            onClick={() => {
+                              close(), setSelectedIndex(null);
+                            }}
+                          >
+                            &times;
+                          </button>
+                          <div className="header"> {res?.event_name} </div>
+                          <div className="font-bold text-2xl">
+                            Event Date: {res?.event_date}
+                          </div>
+                          <div className="text-xl my-5">
+                            {res?.event_description}
+                          </div>
+                          <div>
+                            <img
+                              className="w-[50%]"
+                              src={res?.event_image}
+                              alt=""
+                            />
+                          </div>
+                          <div className="flex justify-center items-center my-5">
+                            <button
+                              onClick={() => {
+                                handleLike(res?._id, res?.likes), close();
+                              }}
+                              className="text-center font-bold bg-blue-500 text-white px-5 py-2"
+                            >
+                              Like
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </Popup>
                   )}
                 </>
               );
@@ -184,9 +244,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <Rodal visible={openModal} onClose={() => setOpenModal(false)}>
-        <div>Content</div>
-      </Rodal>
     </div>
   );
 };

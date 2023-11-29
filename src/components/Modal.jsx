@@ -43,8 +43,8 @@ export default function MyModal({ isOpen, setIsOpen, data, setLikeData }) {
             <div className="fixed inset-0 bg-black/75" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
+          <div className="fixed inset-0 overflow-y-auto mt-24">
+            <div className="flex min-h-min items-center justify-center p-4 text-center">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -54,7 +54,7 @@ export default function MyModal({ isOpen, setIsOpen, data, setLikeData }) {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-2xl h-[80vh] transform overflow-hidden rounded-2xl bg-white p-6 align-middle shadow-xl transition-all !z-[999999999] text-center">
+                <Dialog.Panel className="w-full max-w-2xl h-full transform overflow-hidden rounded-2xl bg-white p-6 align-middle shadow-xl transition-all !z-[999999999] text-center">
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"

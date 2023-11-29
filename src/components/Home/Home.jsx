@@ -86,7 +86,7 @@ const Home = () => {
               style={{
                 width:
                   likedata?.length > 20
-                    ? `${110 + likedata?.length * 55}px`
+                    ? `${30 + likedata?.length * 55}px`
                     : "1190px",
               }}
               className="absolute h-[30px] bottom-5 left-[80px] bg-orange-400"
@@ -100,7 +100,7 @@ const Home = () => {
                   <div
                     style={{
                       position: "absolute",
-                      width: `14px`,
+                      width: `10px`,
                       height:
                         res?.likes <= 350 ? `${10 + res?.likes}px` : `360px`,
 
@@ -112,7 +112,7 @@ const Home = () => {
                   />
                   {
                     <>
-                      {res?.event_image ? (
+                      {res?.event_image && res?.likes >= 15 ? (
                         <img
                           onClick={() => setSelectedIndex(i)}
                           style={{
@@ -123,7 +123,7 @@ const Home = () => {
                               res?.likes <= 345
                                 ? `${60 + res?.likes}px`
                                 : `405px`,
-                            left: `${36 + (i + 1) * 55}px`,
+                            left: `${34 + (i + 1) * 55}px`,
                             background: "#fb1717",
                             borderRadius: "50px",
                             cursor: "pointer",
@@ -133,6 +133,28 @@ const Home = () => {
                           src={res?.event_image}
                           alt=""
                         />
+                      ) : res?.event_image && res?.likes <= 15 ? (
+                        <img
+                          onClick={() => setSelectedIndex(i)}
+                          style={{
+                            position: "absolute",
+                            width: `40px`,
+                            height: `40px`,
+                            bottom:
+                              res?.likes <= 345
+                                ? `${60 + res?.likes}px`
+                                : `405px`,
+                            left: `${34 + (i + 1) * 55}px`,
+                            borderRadius: "50px",
+                            cursor: "pointer",
+                            zIndex: isOpen ? 0 : 99999,
+                          }}
+                          className="border-2"
+                          src={
+                            "https://images.unsplash.com/photo-1605999081451-4436bf1d0d88?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                          }
+                          alt="fd"
+                        />
                       ) : (
                         <div
                           onClick={() => setSelectedIndex(i)}
@@ -140,11 +162,15 @@ const Home = () => {
                             position: "absolute",
                             width: `40px`,
                             height: `40px`,
-                            bottom: `${70 + res?.likes}px`,
-                            left: `${36 + (i + 1) * 55}px`,
-                            background: "#fb1717",
+                            bottom:
+                              res?.likes <= 345
+                                ? `${60 + res?.likes}px`
+                                : `405px`,
+                            left: `${34 + (i + 1) * 55}px`,
+                            border: "1px solid gray",
                             borderRadius: "50px",
                             cursor: "pointer",
+                            zIndex: isOpen ? 0 : 99999,
                           }}
                         />
                       )}
@@ -176,7 +202,7 @@ const Home = () => {
                             res?.likes <= 340
                               ? `${110 + res?.likes}px`
                               : `450px`,
-                          left: `${-20 + (i + 1) * 55}px`,
+                          left: `${-24 + (i + 1) * 55}px`,
                           background: "#d9d9d9",
                           zIndex: 99999999,
                         }}
@@ -205,7 +231,7 @@ const Home = () => {
                               ? `${92 + res?.likes}px`
                               : `435px`,
 
-                          left: `${45 + (i + 1) * 55}px`,
+                          left: `${43 + (i + 1) * 55}px`,
                         }}
                         alt="Polygon"
                         src="https://i.ibb.co/vDZBHw1/Polygon-1.png"

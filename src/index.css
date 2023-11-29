@@ -2,61 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* Hide scrollbar for a specific div in webkit-based browsers */
 #scrollhorigental::-webkit-scrollbar {
-    width: 0.5em;
+  width: 0.5em;
 }
 
 #scrollhorigental::-webkit-scrollbar-thumb {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 /* Hide scrollbar for a specific div in Firefox */
 #scrollhorigental {
-    scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
 }
 
 /* Hide scrollbar for a specific div in IE, Edge */
 #scrollhorigental {
-    -ms-overflow-style: none;
+  -ms-overflow-style: none;
 }
 
 .modal {
-    font-size: 12px;
+  font-size: 12px;
 }
 
-.modal>.header {
-    width: 100%;
-    border-bottom: 1px solid gray;
-    font-size: 18px;
-    text-align: center;
-    padding: 5px;
+.modal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 18px;
+  text-align: center;
+  padding: 5px;
 }
 
-.modal>.content {
-    width: 100%;
-    padding: 10px 5px;
+.modal > .content {
+  width: 100%;
+  padding: 10px 5px;
 }
 
-.modal>.actions {
-    width: 100%;
-    padding: 10px 5px;
-    margin: auto;
-    text-align: center;
+.modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
 }
 
-.modal>.close {
-    cursor: pointer;
-    position: absolute;
-    display: block;
-    padding: 2px 5px;
-    line-height: 20px;
-    right: -10px;
-    top: -10px;
-    font-size: 24px;
-    background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid #cfcece;
+.modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 24px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
 }

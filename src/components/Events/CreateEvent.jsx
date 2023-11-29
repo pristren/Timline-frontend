@@ -47,7 +47,6 @@ export default function CreateEvent() {
     if (
       inputData?.event_name !== "" &&
       inputData?.event_date !== "" &&
-      inputData?.event_image !== "" &&
       inputData?.event_description !== ""
     ) {
       setFeildError(false);
@@ -64,7 +63,6 @@ export default function CreateEvent() {
       setFeildError(true);
     }
   };
-  console.log(inputData);
   return (
     <>
       <Toaster position="top-right" reverseOrder={false} />
@@ -101,12 +99,16 @@ export default function CreateEvent() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700 tracking-wide">
+                <label
+                  htmlFor="date"
+                  className="text-sm font-medium text-gray-700 tracking-wide"
+                >
                   Event Date
                 </label>
                 <input
                   onChange={handleInputChange}
                   name="event_date"
+                  id="date"
                   className=" w-full text-sm px-4 py-2 border  border-gray-300 rounded-lg focus:outline-none focus:border-blue-400"
                   type="date"
                   placeholder="Event Date"

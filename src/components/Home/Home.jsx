@@ -3,11 +3,14 @@ import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
-import Popup from "reactjs-popup";
+import MyModal from "../Modal";
 
 const Home = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   let prevMonth = null;
+
+  let [isOpen, setIsOpen] = useState(false);
+
   const [likedata, setLikeData] = useState([]);
   const fetchEventData = () => {
     axios.get("http://localhost:5000/api/v1/events").then((res) => {
@@ -49,23 +52,17 @@ const Home = () => {
     }
   }, []);
 
-  const handleLike = (id, total) => {
-    axios
-      .put(`http://localhost:5000/api/v1/events/update/${id}`, {
-        likes: total + 1,
-      })
-      .then((res) => {
-        if (res) {
-          toast.success("Successfully Liked!");
-          fetchEventData();
-        }
-      });
-  };
+  const [data, setData] = useState({});
+  function openModal(res) {
+    setData(res);
+    setIsOpen(true);
+    setSelectedIndex(null);
+  }
 
   return (
     <div>
       <Toaster position="top-right" reverseOrder={false} />
-      <div className="flex justify-between mx-10 mt-5">
+      <div className="flex justify-between mx-10 mt-5 -z-20 bg-transparent">
         <div className="[font-family:'Inter-Regular',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal]">
           Logo
         </div>
@@ -77,12 +74,12 @@ const Home = () => {
         ref={elRef1}
         className="bg-white flex flex-row justify-center w-full"
       >
-        <div className="bg-white w-[1440px] relative">
+        <div className="bg-white w-full xl:w-[1440px] relative">
           <div
             key={elRef}
             id="scrollhorigental"
             ref={elRef}
-            className="absolute w-full mx-auto overflow-x-auto overflow-y-hidden min-h-[520px] top-[100px]"
+            className="absolute w-full mx-auto overflow-x-auto overflow-y-hidden min-h-[88vh] "
           >
             {/* eslint-disable */}
             <div
@@ -92,62 +89,73 @@ const Home = () => {
                     ? `${110 + likedata?.length * 55}px`
                     : "1190px",
               }}
-              className="absolute h-[40px] top-[427px] left-[120px] bg-[#d9d9d9]"
+              className="absolute h-[30px] bottom-5 left-[80px] bg-orange-400"
             />
             {likedata?.map((res, i) => {
               const isSameMonth =
                 dayjs(res?.event_date).format("MMM YYYY") === prevMonth;
               prevMonth = dayjs(res?.event_date).format("MMM YYYY");
               return (
-                <>
+                <div key={i}>
                   <div
-                    key={i}
                     style={{
                       position: "absolute",
                       width: `14px`,
-                      height: `${15 + res?.likes}px`,
-                      bottom: "70px",
-                      left: `${110 + (i + 1) * 55}px`,
-                      background: "#d9d9d9",
+                      height:
+                        res?.likes <= 350 ? `${10 + res?.likes}px` : `360px`,
+
+                      // bottom: "72px",
+                      left: `${50 + (i + 1) * 55}px`,
+                      background: "black",
                     }}
+                    className="bottom-[72px] md:bottom-[50px]"
                   />
-                  {res?.event_image ? (
-                    <img
-                      onClick={() => setSelectedIndex(i)}
-                      style={{
-                        position: "absolute",
-                        width: `40px`,
-                        height: `40px`,
-                        bottom: `${70 + res?.likes}px`,
-                        left: `${96 + (i + 1) * 55}px`,
-                        background: "#fb1717",
-                        borderRadius: "50px",
-                        cursor: "pointer",
-                      }}
-                      src={res?.event_image}
-                      alt=""
-                    />
-                  ) : (
-                    <div
-                      onClick={() => setSelectedIndex(i)}
-                      style={{
-                        position: "absolute",
-                        width: `40px`,
-                        height: `40px`,
-                        bottom: `${70 + res?.likes}px`,
-                        left: `${96 + (i + 1) * 55}px`,
-                        background: "#fb1717",
-                        borderRadius: "50px",
-                        cursor: "pointer",
-                      }}
-                    />
-                  )}
+                  {
+                    <>
+                      {res?.event_image ? (
+                        <img
+                          onClick={() => setSelectedIndex(i)}
+                          style={{
+                            position: "absolute",
+                            width: `40px`,
+                            height: `40px`,
+                            bottom:
+                              res?.likes <= 345
+                                ? `${60 + res?.likes}px`
+                                : `405px`,
+                            left: `${36 + (i + 1) * 55}px`,
+                            background: "#fb1717",
+                            borderRadius: "50px",
+                            cursor: "pointer",
+                            zIndex: isOpen ? 0 : 99999,
+                          }}
+                          className="border-2"
+                          src={res?.event_image}
+                          alt=""
+                        />
+                      ) : (
+                        <div
+                          onClick={() => setSelectedIndex(i)}
+                          style={{
+                            position: "absolute",
+                            width: `40px`,
+                            height: `40px`,
+                            bottom: `${70 + res?.likes}px`,
+                            left: `${36 + (i + 1) * 55}px`,
+                            background: "#fb1717",
+                            borderRadius: "50px",
+                            cursor: "pointer",
+                          }}
+                        />
+                      )}
+                    </>
+                  }
                   {!isSameMonth && (
                     <div
                       style={{
                         position: "absolute",
-                        bottom: `5px`,
-                        left: `${95 + (i + 1) * 55}px`,
+                        bottom: `-2px`,
+                        left: `${35 + (i + 1) * 55}px`,
                         color: "black",
                         fontSize: "10px",
                         zIndex: 99999999,
@@ -158,92 +166,67 @@ const Home = () => {
                   )}
 
                   {selectedIndex == i && (
-                    <Popup
-                      onClose={() => setSelectedIndex(null)}
-                      trigger={
-                        <div>
-                          <div
-                            style={{
-                              position: "absolute",
-                              width: `164px`,
-                              height: `95px`,
-                              bottom: `${130 + res?.likes}px`,
-                              left: `${40 + (i + 1) * 55}px`,
-                              background: "#d9d9d9",
-                              zIndex: 999999,
-                            }}
-                          />
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: `${160 + res?.likes}px`,
-                              left: `${105 + (i + 1) * 55}px`,
-                              color: "black",
-                              fontSize: "16px",
-                              zIndex: 99999999,
-                            }}
-                          >
-                            {res?.event_name}
-                          </div>
-                          <img
-                            style={{
-                              position: "absolute",
-                              width: `26px`,
-                              height: `34px`,
-                              bottom: `${96 + res?.likes}px`,
-                              left: `${105 + (i + 1) * 55}px`,
-                            }}
-                            alt="Polygon"
-                            src="https://i.ibb.co/vDZBHw1/Polygon-1.png"
-                          />
+                    <div ref={dropdownRef}>
+                      <div
+                        style={{
+                          position: "absolute",
+                          width: `164px`,
+                          height: `85px`,
+                          bottom:
+                            res?.likes <= 340
+                              ? `${110 + res?.likes}px`
+                              : `450px`,
+                          left: `${-20 + (i + 1) * 55}px`,
+                          background: "#d9d9d9",
+                          zIndex: 99999999,
+                        }}
+                        className="rounded-xl cursor-pointer "
+                        onClick={() => {
+                          openModal(res);
+                        }}
+                      >
+                        <div
+                          className="h-full flex justify-center items-center w-[150px] mx-auto text-center  "
+                          style={{
+                            zIndex: 999999994,
+                          }}
+                        >
+                          {res?.event_name}
                         </div>
-                      }
-                      modal
-                    >
-                      {(close) => (
-                        <div className="modal">
-                          <button
-                            className="close"
-                            onClick={() => {
-                              close(), setSelectedIndex(null);
-                            }}
-                          >
-                            &times;
-                          </button>
-                          <div className="header"> {res?.event_name} </div>
-                          <div className="font-bold text-2xl">
-                            Event Date: {res?.event_date}
-                          </div>
-                          <div className="text-xl my-5">
-                            {res?.event_description}
-                          </div>
-                          <div>
-                            <img
-                              className="w-[50%]"
-                              src={res?.event_image}
-                              alt=""
-                            />
-                          </div>
-                          <div className="flex justify-center items-center my-5">
-                            <button
-                              onClick={() => {
-                                handleLike(res?._id, res?.likes), close();
-                              }}
-                              className="text-center font-bold bg-blue-500 text-white px-5 py-2"
-                            >
-                              Like
-                            </button>
-                          </div>
-                        </div>
-                      )}
-                    </Popup>
+                      </div>
+
+                      <img
+                        style={{
+                          position: "absolute",
+                          width: `22px`,
+                          height: `22px`,
+                          bottom:
+                            res?.likes <= 340
+                              ? `${92 + res?.likes}px`
+                              : `435px`,
+
+                          left: `${45 + (i + 1) * 55}px`,
+                        }}
+                        alt="Polygon"
+                        src="https://i.ibb.co/vDZBHw1/Polygon-1.png"
+                      />
+                    </div>
                   )}
-                </>
+                </div>
               );
             })}
           </div>
         </div>
       </div>
+
+      {isOpen && (
+        <MyModal
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          data={data}
+          setLikeData={setLikeData}
+        />
+      )}
     </div>
   );
 };

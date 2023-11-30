@@ -1,7 +1,7 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import { useEffect, useRef, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import MyModal from "../Modal";
 import logo from "../../assets/logo.png";
@@ -109,7 +109,7 @@ const Home = () => {
                       position: "absolute",
                       width: `10px`,
                       height:
-                        res?.likes <= 350 ? `${10 + res?.likes}px` : `360px`,
+                        res?.likes <= 350 ? `${100 + res?.likes}px` : `360px`,
 
                       // bottom: "72px",
                       left: `${50 + (i + 1) * 55}px`,
@@ -129,7 +129,7 @@ const Home = () => {
                             height: `40px`,
                             bottom:
                               res?.likes <= 345
-                                ? `${60 + res?.likes}px`
+                                ? `${150 + res?.likes}px`
                                 : `405px`,
                             left: `${34 + (i + 1) * 55}px`,
                             // background: "#fb1717",
@@ -150,7 +150,7 @@ const Home = () => {
                             height: `40px`,
                             bottom:
                               res?.likes <= 345
-                                ? `${60 + res?.likes}px`
+                                ? `${150 + res?.likes}px`
                                 : `405px`,
                             left: `${34 + (i + 1) * 55}px`,
                             borderRadius: "50px",
@@ -172,7 +172,7 @@ const Home = () => {
                             height: `40px`,
                             bottom:
                               res?.likes <= 345
-                                ? `${60 + res?.likes}px`
+                                ? `${150 + res?.likes}px`
                                 : `405px`,
                             left: `${34 + (i + 1) * 55}px`,
                             border: "1px solid gray",
@@ -209,7 +209,7 @@ const Home = () => {
                           height: `85px`,
                           bottom:
                             res?.likes <= 340
-                              ? `${110 + res?.likes}px`
+                              ? `${200 + res?.likes}px`
                               : `450px`,
                           left: `${-24 + (i + 1) * 55}px`,
                           background: "#d9d9d9",
@@ -237,7 +237,7 @@ const Home = () => {
                           height: `22px`,
                           bottom:
                             res?.likes <= 340
-                              ? `${92 + res?.likes}px`
+                              ? `${185 + res?.likes}px`
                               : `435px`,
 
                           left: `${43 + (i + 1) * 55}px`,

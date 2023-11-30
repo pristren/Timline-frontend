@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import { format } from "date-fns";
 import "react-datepicker/dist/react-datepicker.css";
+import logo from "../../assets/logo.png";
 
 export default function CreateEvent() {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export default function CreateEvent() {
     ) {
       const data = {
         ...inputData,
-        event_date: format(startDate, "MM/dd/yyyy"),
+        event_date: startDate,
       };
       setFeildError(false);
       axios
@@ -75,18 +76,24 @@ export default function CreateEvent() {
       <Toaster position="top-right" reverseOrder={false} />
       <div className="flex justify-between mx-10 mt-5">
         <div className="[font-family:'Inter-Regular',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal]">
-          <Link to={"/"}>Logo</Link>
+          <Link to="/">
+            <img src={logo} className="w-full" alt="" />
+          </Link>
         </div>
         <div className="cursor-pointer [font-family:'Inter-Regular',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal]">
-          <Link to={"/create/event"}>Create Event</Link>
+          <Link to={"/create/event"}>
+            <button className="border-2 border-black px-4 py-1.5 text-black rounded-2xl border-b-4 text-lg">
+              Create Event
+            </button>
+          </Link>
         </div>
       </div>
       <div className="flex items-center h-screen">
         <div className="p-6 bg-white mx-auto rounded-2xl w-full sm:w-3/4 md:w-[60%] lg:w-[45%] shadow-xl ">
           <div className="mb-4 text-center">
-            <h3 className="font-semibold text-2xl text-gray-800">
+            <button className="font-semibold text-2xl text-gray-800 ">
               Create Event{" "}
-            </h3>
+            </button>
           </div>
           <form
             onSubmit={createEvent}

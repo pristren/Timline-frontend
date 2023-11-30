@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import MyModal from "../Modal";
+import logo from "../../assets/logo.png";
 
 const Home = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
-  let prevMonth = null;
+  let prevYear = null;
 
   let [isOpen, setIsOpen] = useState(false);
 
@@ -64,10 +65,16 @@ const Home = () => {
       <Toaster position="top-right" reverseOrder={false} />
       <div className="flex justify-between mx-10 mt-5 -z-20 bg-transparent">
         <div className="[font-family:'Inter-Regular',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal]">
-          Logo
+          <Link to="/">
+            <img src={logo} className="w-full" alt="" />
+          </Link>
         </div>
         <div className="cursor-pointer [font-family:'Inter-Regular',Helvetica] font-normal text-black text-[32px] tracking-[0] leading-[normal]">
-          <Link to={"/create/event"}>Create Event</Link>
+          <Link to={"/create/event"}>
+            <button className="border-2 border-black px-4 py-1.5 text-black rounded-2xl border-b-4 text-lg">
+              Create Event
+            </button>
+          </Link>
         </div>
       </div>
       <div
@@ -89,12 +96,12 @@ const Home = () => {
                     ? `${30 + likedata?.length * 55}px`
                     : "1190px",
               }}
-              className="absolute h-[30px] bottom-5 left-[80px] bg-orange-400"
+              className="absolute h-[30px] bottom-5 left-[80px] bg-gradient-to-b from-[#FF8C05]"
             />
             {likedata?.map((res, i) => {
-              const isSameMonth =
-                dayjs(res?.event_date).format("MMM YYYY") === prevMonth;
-              prevMonth = dayjs(res?.event_date).format("MMM YYYY");
+              const isSameYear =
+                dayjs(res?.event_date).format("YYYY") === prevYear;
+              prevYear = dayjs(res?.event_date).format("YYYY");
               return (
                 <div key={i}>
                   <div
@@ -106,9 +113,10 @@ const Home = () => {
 
                       // bottom: "72px",
                       left: `${50 + (i + 1) * 55}px`,
-                      background: "black",
+                      boxShadow: "0px 4px 4px 0px #00000040",
+                      // background: "black",
                     }}
-                    className="bottom-[72px] md:bottom-[50px]"
+                    className="bottom-[72px] md:bottom-[50px] bg-gradient-to-t from-[#FE6F07]  shadow-xl border border-solid border-[#D9D9D9]"
                   />
                   {
                     <>
@@ -124,12 +132,12 @@ const Home = () => {
                                 ? `${60 + res?.likes}px`
                                 : `405px`,
                             left: `${34 + (i + 1) * 55}px`,
-                            background: "#fb1717",
+                            // background: "#fb1717",
                             borderRadius: "50px",
                             cursor: "pointer",
                             zIndex: isOpen ? 0 : 99999,
                           }}
-                          className="border-2"
+                          className="border-2 "
                           src={res?.event_image}
                           alt=""
                         />
@@ -172,22 +180,23 @@ const Home = () => {
                             cursor: "pointer",
                             zIndex: isOpen ? 0 : 99999,
                           }}
+                          className=""
                         />
                       )}
                     </>
                   }
-                  {!isSameMonth && (
+                  {!isSameYear && (
                     <div
                       style={{
                         position: "absolute",
                         bottom: `-2px`,
-                        left: `${35 + (i + 1) * 55}px`,
+                        left: `${42 + (i + 1) * 55}px`,
                         color: "black",
                         fontSize: "10px",
                         zIndex: 99999999,
                       }}
                     >
-                      {dayjs(res?.event_date).format("MMM YYYY")}
+                      {dayjs(res?.event_date).format("YYYY")}
                     </div>
                   )}
 
